@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flyrise.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.flyrise.model.User">
+    <id column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="USER_BIRTHDAY" jdbcType="TIMESTAMP" property="userBirthday" />
+    <result column="USER_SALARY" jdbcType="DECIMAL" property="userSalary" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    USER_ID, USER_NAME, USER_BIRTHDAY, USER_SALARY
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_USER
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from T_USER
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.flyrise.model.User">
+    insert into T_USER (USER_ID, USER_NAME, USER_BIRTHDAY, 
+      USER_SALARY)
+    values (#{userId,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR}, #{userBirthday,jdbcType=TIMESTAMP}, 
+      #{userSalary,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flyrise.model.User">
+    insert into T_USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="userBirthday != null">
+        USER_BIRTHDAY,
+      </if>
+      <if test="userSalary != null">
+        USER_SALARY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null">
+        #{userBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userSalary != null">
+        #{userSalary,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flyrise.model.User">
+    update T_USER
+    <set>
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null">
+        USER_BIRTHDAY = #{userBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userSalary != null">
+        USER_SALARY = #{userSalary,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flyrise.model.User">
+    update T_USER
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      USER_BIRTHDAY = #{userBirthday,jdbcType=TIMESTAMP},
+      USER_SALARY = #{userSalary,jdbcType=DECIMAL}
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+</mapper>
